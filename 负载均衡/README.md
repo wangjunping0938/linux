@@ -34,4 +34,12 @@ LVS负载调度器可以分配2块网卡配置不同IP地址,
        LVS本身有一个连接Hash表, 记录之前的请求及转发信息,
        这样保证同一个人的下一次请求可以转发至上次相同的RS
 
+- 配置教程
+    client:`192.168.199.111`
 
+    LVS:VIP`192.168.235.128`, IntranetIP``
+
+    1. 临时开启路由转发,永久请编辑`/etc/sysctl.conf`, 并修改`net.ipv4.ip_forward`的值为1
+    ```Bash
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+    ```
