@@ -13,7 +13,7 @@ LVS (Linux Virtual Server) 是由章文嵩博士主导的开源负载均衡项�
 
 LVS 工作模式: NAT, TUN, DR
 
-![LVS负载均衡结构图](/pictures/LVS负载均衡结构图.png "LVS负载均衡结构图")
+![LVS负载均衡结构图](/load_balanc/pictures/LVS负载均衡结构图.png "LVS负载均衡结构图")
 
 
 ### 基于NAT的LVS模式负载均衡
@@ -22,7 +22,7 @@ NAT (Network Address Translation) 即网络地址转换, 作用是通过修改�
 LVS负载调度器可以分配2块网卡配置不同IP地址,
 网卡1设置私有IP与内部网络通过交换设备互连, 网卡2设置外网IP与外网联通
 
-![LVS-NAT模式](/pictures/LVS-NAT模式.png "LVS-NAT模式")
+![LVS-NAT模式](/load_balanc/pictures/LVS-NAT模式.png "LVS-NAT模式")
 
 - LVS-NAT模式访问流程
     1. 终端用户通过DNS解析至负载均衡器外网IP (LVS外网IP又称VIP (Vitual IP
