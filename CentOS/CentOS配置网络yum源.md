@@ -27,10 +27,13 @@ lsb_release -a|grep Release|awk '{print $2}'|awk -F"." '{print $1}'
 
 # 备份本地源文件
 cd etc/yum.repos.d
-rename .repo .bak *.repo
+rename .repo .repo.bak *.repo
 
 # 安装网络yum源文件
-wget -O etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-sed -i "s#\$releasever#7#g" etc/yum.repos.d/CentOS-Base.repo
-rpm --import http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+wget http://mirrors.aliyun.com/repo/Centos-6.repo -O /etc/yum.repos.d/CentOS-Base.repo
+sed -i "s#\$releasever#6#g" /etc/yum.repos.d/CentOS-Base.repo
+rpm --import http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-6
+
+# 清空并重新生成yum缓存
+yum clean all && yum makecache && yum update
 ```
