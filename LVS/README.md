@@ -116,3 +116,56 @@ service ipvsadm start
 
 使用客户端进行测试
 
+
+## LVS DR模式负载均衡
+
+DR模式也叫直连路由模式, LVS仅负责入站请求及根据算法分配请求至RS,
+最终由RS负责将响应发送至Client,DR模式要求LVS调度器与RS必须在同一局域网,
+VIP需要在调度器与RS端共享,由于多台RS都设置了VIP,所以DR模式中VIP对于客户端时可见的, 
+而RS的VIP必须设置在Non-ARP网络设备上,该网络设备不会对外广播自己的MAC及IP地址,RS的VIP对外不可见,
+
+![LVS-DR模式](/LVS/pictures/LVS-DR模式.png)
+
+**配置教程**
+
+- 网络环境
+```Bash
+Client_IP: 192.168.199.111
+LVS_IP: 192.168.235.128
+LVS_VIP: 192.168.235.150
+RS1_IP: 192.168.235.129
+RS2_IP: 192.168.235.130
+```
+
+- LVS配置
+```Bash
+# 安装ipvsadm
+yum install ipvsadm -y
+
+# 开启路由转发
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+# 配置VIP
+ifconfig eth0:1 192.168.235.150/24
+
+# ipvsadm配置
+ipvsadm -A -t 192.168.235.150:80 -s rr
+ipvsadm -a -t 192.168.235.150:80 -r 192.168.235.129 -g
+ipvsadm -a -t 192.168.235.150:80 -r 192.168.235.130 -g
+service ipvsadm save
+service ipvsadm start
+
+# 添加防火墙规则
+iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+```
+
+- RS1和RS2配置一样
+```Bash
+yum install httpd -y
+echo 'RS1' > /var/www/html/index.html
+service httpd start
+ifconfig lo:0 192.168.235.150 netmask 255.255.255.255 broadcast 192.168.235.150 up
+echo 1 >/proc/sys/net/ipv4/conf/all/arp_ignore
+echo 1 >/proc/sys/net/ipv4/conf/all/arp_announce
+iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+```
