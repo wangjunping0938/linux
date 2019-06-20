@@ -26,7 +26,7 @@ yum install redhat-lsb-core -y
 lsb_release -a|grep Release|awk '{print $2}'|awk -F"." '{print $1}'
 
 # 备份本地源文件
-cd etc/yum.repos.d
+cd /etc/yum.repos.d
 rename .repo .repo.bak *.repo
 
 # 安装网络yum源文件
