@@ -15,6 +15,7 @@ LVS (Linux Virtual Server) 是由章文嵩博士主导的开源负载均衡项�
 LVS 3工作模式: NAT, TUN, DR
 
 LVS 10中负载均衡调度算法:
+
     - 轮询调度: (Round Robin简称'RR'算法),
       当所有RS负载能力一致,调度器会将请求平均分配至每个RS
 
