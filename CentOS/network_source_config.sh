@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# 备份本地源
-cd /etc/yum.repos.d
-rename .repo .repo.bak *.repo
 
 # 安装阿里云yum源
 version=`lsb_release -a|grep Release|awk '{print $2}'|awk -F"." '{print $1}'`

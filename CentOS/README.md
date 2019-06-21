@@ -11,6 +11,10 @@
 
 指令
 ```Bash
+# 备份本地源
+cd /etc/yum.repos.d
+rename .repo .repo.bak *.repo
+
 # 配置本地源
 cat > /etc/yum.repos.d/CentOS.Media.repo << EOF
 [local-media]
